@@ -1,10 +1,10 @@
 {
   "name": "dubbo-invoke-generator",
-  "displayName": "Dubbo Invoke Generator",
+  "displayName": "Dubbo Invoke",
   "description": "Generate Dubbo invoke commands from interface methods",
-  "publisher": "HongYan",
+  "publisher": "HongYan-DubboInvoke",
   "icon": "dubbo.png",
-  "version": "2.1.0",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.74.0"
   },
