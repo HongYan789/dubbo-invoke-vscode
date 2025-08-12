@@ -4,7 +4,7 @@
   "description": "Generate Dubbo invoke commands from interface methods",
   "publisher": "HongYan",
   "icon": "dubbo.png",
-  "version": "0.0.1",
+  "version": "2.1.0",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -20,6 +20,18 @@
       {
         "command": "dubbo-invoke.generateInvokeCommand",
         "title": "Dubbo Invoke"
+      },
+      {
+        "command": "dubbo-invoke.quickGenerateToClipboard",
+        "title": "Quick Generate Dubbo Invoke to Clipboard"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "dubbo-invoke.quickGenerateToClipboard",
+        "key": "ctrl+i",
+        "mac": "cmd+i",
+        "when": "editorTextFocus && resourceExtname == '.java'"
       }
     ],
     "menus": {

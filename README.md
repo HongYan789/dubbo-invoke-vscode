@@ -5,6 +5,7 @@
 ## ✨ 功能特性
 
 - 🚀 **智能命令生成**: 右键点击Java方法即可生成Dubbo invoke命令
+- ⚡ **快捷键生成**: 使用 `Cmd+I`(Mac) / `Ctrl+I`(Windows) 快速生成命令到剪切板
 - 📋 **一键复制**: 快速复制生成的命令到剪贴板
 - 🎯 **智能解析**: 自动解析方法签名、参数和返回类型
 - 💡 **类型支持**: 支持多种Java数据类型的示例值生成
@@ -37,11 +38,21 @@
 
 ### 操作步骤
 
+#### 方式一：右键菜单（显示详细面板）
+
 1. 📂 在VS Code中打开包含Java接口的项目
 2. 📝 打开Java接口文件（如 `example/UserService.java`）
 3. 🖱️ 在方法名上右键点击
 4. 🚀 选择 "Dubbo Invoke" 选项
 5. 📋 在弹出的面板中点击"复制命令"按钮
+
+#### 方式二：快捷键（快速复制）
+
+1. 📂 在VS Code中打开包含Java接口的项目
+2. 📝 打开Java接口文件（如 `example/UserService.java`）
+3. 🎯 将光标放在Java方法上
+4. ⚡ 按下 `Cmd+I`(Mac) / `Ctrl+I`(Windows) 快捷键
+5. ✅ 命令将自动生成并复制到剪切板
 
 ### 生成的命令格式示例
 
@@ -61,13 +72,38 @@ invoke com.example.service.UserService batchCreateUsers([], {})
 invoke com.example.service.UserService getUserStats()
 ```
 
+### 🚀 快捷键使用示例
+
+使用新的 `Cmd+I`(Mac) / `Ctrl+I`(Windows) 快捷键可以极大提升开发效率：
+
+1. **打开示例文件**: 在VS Code中打开 `example/UserService.java`
+2. **定位方法**: 将光标放在任意方法上，例如 `getUserById` 方法
+3. **快速生成**: 按下 `Cmd+I`(Mac) / `Ctrl+I`(Windows)
+4. **自动复制**: 命令会自动生成并复制到剪切板
+5. **即时使用**: 可以直接在Dubbo控制台中粘贴使用
+
+**优势对比**:
+- 🐌 **传统方式**: 右键 → 选择菜单 → 等待面板 → 点击复制 (4步)
+- ⚡ **快捷键方式**: 定位光标 → 按快捷键 (2步，瞬间完成)
+
 ### ⌨️ 键盘快捷键
 
+#### 全局快捷键
+- `Cmd+I`(Mac) / `Ctrl+I`(Windows): 快速生成Dubbo invoke命令到剪切板
+
+#### 面板内快捷键
 - `Ctrl/Cmd + C`: 复制命令到剪贴板
 - `Esc`: 关闭面板
 - `F5` 或 `Ctrl/Cmd + R`: 刷新命令
 
 ## 🆕 最新改进
+
+### v2.1 - 快捷键功能增强
+
+- ⚡ **新增快捷键**: 添加 `Cmd+I`(Mac) / `Ctrl+I`(Windows) 快速生成命令到剪切板
+- 🚀 **效率提升**: 无需打开面板，一键生成并复制命令
+- 💡 **智能提示**: 显示生成的方法名称确认
+- 📋 **即时反馈**: 生成成功后立即显示确认消息
 
 ### v2.0 - 基于VS Code扩展最佳实践的全面升级
 
@@ -170,6 +206,10 @@ invoke com.example.service.UserService getUserById("example", true)
 invoke com.example.service.UserService getUsersByAge(1, 1)
 invoke com.example.service.UserService updateUser({})
 ```
+
+效果图：
+
+![image-20250812173938206](https://gitee.com/hongyan008/blog-img/raw/img/img/image-20250812173938206.png)
 
 ## 安装
 

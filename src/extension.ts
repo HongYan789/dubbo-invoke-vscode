@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
     console.log('Dubbo Invoke Generator is now active!');
 
+    // 注册原有的生成命令（显示WebView面板）
     let disposable = vscode.commands.registerCommand('dubbo-invoke.generateInvokeCommand', async () => {
         const editor = vscode.window.activeTextEditor;
         
@@ -61,7 +62,68 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+    // 注册新的快速生成到剪切板命令
+    let quickGenerateDisposable = vscode.commands.registerCommand('dubbo-invoke.quickGenerateToClipboard', async () => {
+        const editor = vscode.window.activeTextEditor;
+        
+        // 检查是否有活动编辑器
+        if (!editor) {
+            vscode.window.showErrorMessage('❌ 请先打开一个文件');
+            return;
+        }
+
+        const document = editor.document;
+        
+        // 检查文件类型是否为Java
+        if (document.languageId !== 'java' && !document.fileName.endsWith('.java')) {
+            vscode.window.showErrorMessage('❌ 请先打开一个Java文件');
+            return;
+        }
+        
+        // 检查文件是否已保存
+        if (document.isUntitled) {
+            vscode.window.showErrorMessage('❌ 请先保存Java文件');
+            return;
+        }
+
+        const selection = editor.selection;
+        const position = selection.active;
+        
+        try {
+            // 解析Java接口方法
+            const methodInfo = await parseJavaMethod(document, position);
+            
+            if (methodInfo) {
+                const invokeCommand = await generateDubboInvokeCommand(methodInfo);
+                
+                // 直接复制到剪切板
+                await vscode.env.clipboard.writeText(invokeCommand);
+                vscode.window.showInformationMessage(`✅ Dubbo invoke命令已复制到剪切板: ${methodInfo.methodName}()`);
+            } else {
+                // 提供更具体的错误信息
+                const currentLine = document.lineAt(position.line).text.trim();
+                let errorMessage = '❌ 请将光标放在Java方法上';
+                
+                if (currentLine === '') {
+                    errorMessage = '❌ 请将光标放在Java方法定义行上（当前行为空）';
+                } else if (currentLine.includes('class ') || currentLine.includes('interface ')) {
+                    errorMessage = '❌ 请将光标放在方法上，而不是类或接口声明上';
+                } else if (currentLine.includes('import ') || currentLine.includes('package ')) {
+                    errorMessage = '❌ 请将光标放在方法上，而不是import或package语句上';
+                } else if (currentLine.startsWith('//') || currentLine.startsWith('/*')) {
+                    errorMessage = '❌ 请将光标放在方法上，而不是注释行上';
+                }
+                
+                vscode.window.showErrorMessage(errorMessage);
+            }
+        } catch (error) {
+            console.error('解析Java方法时出错:', error);
+            vscode.window.showErrorMessage('❌ 解析Java方法时出错，请检查文件格式');
+        }
+    });
+
     context.subscriptions.push(disposable);
+    context.subscriptions.push(quickGenerateDisposable);
 }
 
 let currentPanel: vscode.WebviewPanel | undefined;
