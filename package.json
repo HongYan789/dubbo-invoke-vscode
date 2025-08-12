@@ -1,0 +1,45 @@
+{
+  "name": "dubbo-invoke-generator",
+  "displayName": "Dubbo Invoke Generator",
+  "description": "Generate Dubbo invoke commands from interface methods",
+  "publisher": "HongYan",
+  "icon": "dubbo.png",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:java"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dubbo-invoke.generateInvokeCommand",
+        "title": "Dubbo Invoke"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "dubbo-invoke.generateInvokeCommand",
+          "when": "editorTextFocus && resourceExtname == '.java'",
+          "group": "1_modification"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  }
+}
