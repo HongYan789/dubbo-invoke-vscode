@@ -4,7 +4,7 @@
   "description": "Generate Dubbo invoke commands from interface methods",
   "publisher": "HongYan-DubboInvoke",
   "icon": "dubbo.png",
-  "version": "0.0.2",
+  "version": "2.1.1",
   "engines": {
     "vscode": "^1.74.0"
   },
