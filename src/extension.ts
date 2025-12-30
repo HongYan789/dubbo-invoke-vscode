@@ -1077,8 +1077,11 @@ async function resolveFullTypePath(typeName: string, imports: Map<string, string
     const genericPart = genericMatch[2] || '';
     const genericTypes = genericMatch[3] || '';
     
-    // 如果是基本类型，直接返回
-    const primitiveTypes = ['int', 'long', 'double', 'float', 'boolean', 'byte', 'short', 'char', 'String', 'void'];
+    // 如果是基本类型或常用包装类型，直接返回
+    const primitiveTypes = [
+        'int', 'long', 'double', 'float', 'boolean', 'byte', 'short', 'char', 'void',
+        'String', 'Integer', 'Long', 'Double', 'Float', 'Boolean', 'Byte', 'Short', 'Character', 'Object'
+    ];
     if (primitiveTypes.includes(baseType)) {
         return typeName;
     }
@@ -1152,24 +1155,27 @@ async function searchTypeInProject(typeName: string, currentFileUri: vscode.Uri)
 
 // 生成参数的默认值
 function generateDefaultValue(paramType: string): string {
+    // 移除 java.lang. 前缀，简化匹配
+    const simpleType = paramType.replace(/^java\.lang\./, '');
+
     // 处理基本类型
-    if (paramType === 'String') {
+    if (simpleType === 'String') {
         return `"example"`;
-    } else if (paramType === 'int' || paramType === 'Integer') {
+    } else if (simpleType === 'int' || simpleType === 'Integer') {
         return '1';
-    } else if (paramType === 'boolean' || paramType === 'Boolean') {
+    } else if (simpleType === 'boolean' || simpleType === 'Boolean') {
         return 'true';
-    } else if (paramType === 'long' || paramType === 'Long') {
+    } else if (simpleType === 'long' || simpleType === 'Long') {
         return '1L';
-    } else if (paramType === 'double' || paramType === 'Double') {
+    } else if (simpleType === 'double' || simpleType === 'Double') {
         return '1.0';
-    } else if (paramType === 'float' || paramType === 'Float') {
+    } else if (simpleType === 'float' || simpleType === 'Float') {
         return '1.0f';
-    } else if (paramType === 'byte' || paramType === 'Byte') {
+    } else if (simpleType === 'byte' || simpleType === 'Byte') {
         return '1';
-    } else if (paramType === 'short' || paramType === 'Short') {
+    } else if (simpleType === 'short' || simpleType === 'Short') {
         return '1';
-    } else if (paramType === 'char' || paramType === 'Character') {
+    } else if (simpleType === 'char' || simpleType === 'Character') {
         return "'a'";
     }
     
